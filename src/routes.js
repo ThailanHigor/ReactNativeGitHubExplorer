@@ -12,7 +12,9 @@ const Routes = createStackNavigator({
     }),
   },
 }, {
-  initialRouteName: 'User',
+  initialRouteName: 'Welcome',
 });
 
+
 export default Routes;
+
