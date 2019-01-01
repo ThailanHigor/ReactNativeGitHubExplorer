@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { colors } from 'styles';
 
 import HeaderRight from 'components/HeaderRight';
 
@@ -14,12 +15,24 @@ const createNavigator = (isLogged = false) => createStackNavigator({
     screen: createBottomTabNavigator({
       Repositories: { screen: Repositories },
       Organizations: { screen: Organizations },
+    }, {
+      tabBarPosition: 'bottom',
+      tabBarOptions: {
+        showIcon: true,
+        showLabel: false,
+        activeTintColor: colors.white,
+        inactiveTintColor: colors.whiteTransparent,
+        style: {
+          backgroundColor: colors.secundary,
+        }
+      }
+
     }),
   },
 }, {
   initialRouteName: isLogged ? 'User' : 'Welcome',
   navigationOptions: ({ navigation }) => ({
-    headerRight: <HeaderRight navigation= {navigation} />,
+    headerRight: <HeaderRight navigation={navigation} />,
   })
 });
 
