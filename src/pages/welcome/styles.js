@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   form: {
-    marginTop: metrics.baseMargin * 2,
+    marginTop: metrics.baseMargin,
   },
 
   input: {
@@ -49,7 +49,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
     fontSize: 17,
-  }
+  },
+
+  error: {
+    color: colors.danger,
+    textAlign: 'center',
+    marginTop: metrics.baseMargin,
+  },
 });
 
 export default styles;

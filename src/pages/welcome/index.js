@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavigationActions, StackActions } from 'react-navigation';
-import { View, Text, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity,
+        StatusBar, ActivityIndicator, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import api from 'services/api';
 
@@ -17,6 +18,8 @@ export default class Welcome extends Component {
 
   state = {
     username: '',
+    loading: false,
+    errorMessage: null,
   }
 
   checkUserExists = async (username) => {
@@ -24,13 +27,21 @@ export default class Welcome extends Component {
     return user;
   }
 
+  saveUser = async (username) => {
+    await AsyncStorage.setItem('@Githuber:username', username);
+  }
+
   singIn = async () => {
     const { username } = this.state;
 
     if (username.length === 0) return;
 
+    this.setState({ loading: true });
     try {
       await this.checkUserExists(username);
+
+      await this.saveUser(username);
+
       const resetAction = StackActions.reset({
         index: 0,
         actions: [
@@ -40,7 +51,7 @@ export default class Welcome extends Component {
 
       this.props.navigation.dispatch(resetAction);
     } catch (err) {
-      //erro
+      this.setState({ loading: false, errorMessage: 'Usuário não existe.' });
     }
   };
 
@@ -52,6 +63,11 @@ export default class Welcome extends Component {
         <Text style={styles.text}>
           Para continuar, precisamos que você informe seu usuário no GitHub
         </Text>
+
+        {
+          !!this.state.errorMessage
+          && <Text style={styles.error}>{ this.state.errorMessage }</Text>
+        }
 
         <View style={styles.form}>
           <TextInput
@@ -65,7 +81,10 @@ export default class Welcome extends Component {
           />
 
           <TouchableOpacity style={styles.button} onPress={this.singIn}>
-            <Text style={styles.buttonText}>Prosseguir</Text>
+            { this.state.loading
+              ? <ActivityIndicator size="small" color="#FFF" />
+              : <Text style={styles.buttonText}>Prosseguir</Text>
+            }
           </TouchableOpacity>
         </View>
 

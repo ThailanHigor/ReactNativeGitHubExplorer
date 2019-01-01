@@ -6,3 +6,7 @@ const Repositories = () => (
 );
 
 export default Repositories;
+
+Repositories.navigationOptions = {
+  headerTitle: 'wwerw',
+};
