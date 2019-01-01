@@ -18,9 +18,9 @@ const createNavigator = (isLogged = false) => createStackNavigator({
   },
 }, {
   initialRouteName: isLogged ? 'User' : 'Welcome',
-  navigationOptions: {
-    headerRight: <HeaderRight />,
-  }
+  navigationOptions: ({ navigation }) => ({
+    headerRight: <HeaderRight navigation= {navigation} />,
+  })
 });
 
 
